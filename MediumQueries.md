@@ -1,22 +1,8 @@
 # Taller Consultas - Nivel Medio
 
-El presente taller tiene como objetivo fortalecer el dominio de las operaciones relacionales en el lenguaje SQL aplicadas sobre la base de datos `world`, disponible en MySQL. Esta base de datos contiene información detallada de países, ciudades y lenguas en diversas tablas que permiten la manipulación y consulta de datos de forma significativa. En el contexto de bases de datos relacionales, las operaciones relacionales, como la unión, intersección, diferencia y reunión, son fundamentales para realizar consultas complejas que extraigan datos precisos de múltiples tablas y relaciones.
-
-Mediante la resolución de consultas que abarcan desde la obtención de datos específicos hasta el filtrado y agrupamiento de información, los estudiantes podrán aplicar conceptos claves como `JOIN` en sus diferentes tipos (`INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `SELF JOIN`, y `CROSS JOIN`), así como otras técnicas avanzadas de SQL. Este taller busca guiar a los estudiantes en la creación de consultas SQL que permitan analizar la base de datos `world` en profundidad y ofrecer respuestas concretas a preguntas específicas. Además, se incluye una representación matemática en álgebra relacional para que los estudiantes comprendan cómo los comandos SQL se traducen en términos conceptuales.
-
-Utilicen la siguiente imagen como guía para las consultas.
-
-<div align="center">
-  <img src="https://stevestedman.com/wp-content/uploads/MySqlJoinTypesThumbnail-774x1024.png" width="70%">
-</div>
-
-Tomado de [MySQL JOIN Types Poster](https://stevestedman.com/2015/03/mysql-join-types-poster/).
-
 ## Consultas
 
 Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones relacionales en MySQL aplicadas a la base de datos `world`. Cada una incluye una breve descripción del objetivo de la consulta y su formulación en álgebra relacional y en MySQL:
-
-
 
 ### 1. Encuentra los países que tienen un idioma oficial.
 **Objetivo:** Identificar los países con al menos un idioma oficial registrado en la tabla `countrylanguage`.
@@ -24,7 +10,14 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{CountryCode}}(\sigma_{\text{IsOfficial} = 'T'} (\text{CountryLanguage}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  #1. Encuentra los países que tienen un idioma oficial.
+SELECT c.name AS country_name, MAX(cl.language) AS Official_languages
+FROM country AS c
+JOIN countrylanguage AS cl ON c.code = cl.countrycode
+WHERE cl.isofficial = 't'
+GROUP BY c.code
+HAVING COUNT(cl.isofficial) = 1
+ORDER BY name;
   ```
 
 ### 2. Lista los países que tienen más de un idioma oficial.
