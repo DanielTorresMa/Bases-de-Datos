@@ -9,7 +9,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
 - **Álgebra Relacional:** 
   $$\pi_{\text{CountryCode}}(\sigma_{\text{IsOfficial} = 'T'} (\text{CountryLanguage}))$$
 - **Consulta en SQL:**
-  ```
+  ```sql
   SELECT c.name AS country_name, MAX(cl.language) AS Official_languages
   FROM country AS c
   JOIN countrylanguage AS cl ON c.code = cl.countrycode
