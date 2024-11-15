@@ -208,9 +208,7 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **Álgebra relacional**:  
 
-  $$
-  π_Country_Name,Region(σ_Region = (π_Region(σ_name = 'Russian Federation'(country)))(country))
-  $$
+  $$ π_Country_Name,Region(σ_Region = (π_Region(σ_name = 'Russian Federation'(country)))(country)) $$
 
   **SQL equivalente**:  
   ```sql
@@ -224,9 +222,7 @@ SELECT name as Country_Name , Region
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_City,population(σ_region = 'Caribbean' ∧ HeadOfState = 'Elisabeth II'(city ⨝_countrycode = code country)) $$
 
   **SQL equivalente**:  
   ```sql
@@ -241,9 +237,7 @@ SELECT ci.name as City, ci.population
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_language_name(σ_Countries_as_nonofficial > 1(γ_language, COUNT(isofficial) as Countries_as_nonofficial(σ_isofficial = 'f'(countrylanguage ⨝ country)))) $$
 
   **SQL equivalente**:  
   ```sql
@@ -260,9 +254,7 @@ SELECT cl.language AS language_name, COUNT(cl.isofficial) AS Countries_as_nonoff
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_Country(σ_continent = 'South America' ∧ countrycode IS NULL(country LEFT JOIN_code = countrycode ∧ IsOfficial = 'f' countrylanguage)) $$
 
   **SQL equivalente**:  
   ```sql
@@ -275,9 +267,7 @@ SELECT co.name AS Country
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_Country,Cities(σ_Cities ≥ 5 ∧ Cities ≤ 10(γ_countrycode, COUNT(countrycode) as Cities(country ⨝_code = countrycode city))) $$
 
   **SQL equivalente**:  
   ```sql
@@ -291,9 +281,7 @@ SELECT co.name AS Country, COUNT(countrycode) as Cities
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_language(σ_IsOfficial = 'f' ∧ population > 100000000(countrylanguage LEFT JOIN_countrycode = code country)) $$
 
   **SQL equivalente**:  
   ```sql
@@ -307,9 +295,7 @@ SELECT language
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_name,surfacearea(σ_surfacearea > (π_surfacearea(σ_name = 'Colombia'(country)))(country)) $$
 
   **SQL equivalente**:  
   ```sql
@@ -324,9 +310,7 @@ SELECT language
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_Country,Life_Expectancy(σ_lifeexpectancy < AVG(lifeexpectancy)(country)) $$
 
   **SQL equivalente**:  
   ```sql
@@ -340,9 +324,7 @@ SELECT language
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_continent,Total_population(γ_continent, SUM(surfacearea) as Total_population(country)) $$
 
   **SQL equivalente**:  
   ```sql
@@ -355,9 +337,7 @@ SELECT language
 
   **Álgebra relacional**:  
 
-  $$
-  Álgebra Relacional
-  $$
+  $$ π_Country_Name,governmentform(σ_governmentform = (π_governmentform(σ_name = 'Russian Federation'(country)))(country)) $$
 
   **SQL equivalente**:  
   ```sql
