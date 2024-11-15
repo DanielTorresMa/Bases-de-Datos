@@ -10,7 +10,6 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{CountryCode}}(\sigma_{\text{IsOfficial} = 'T'} (\text{CountryLanguage}))$$
 - **Consulta en SQL:**
   ```sql
-  #1. Encuentra los países que tienen un idioma oficial.
 SELECT c.name AS country_name, MAX(cl.language) AS Official_languages
 FROM country AS c
 JOIN countrylanguage AS cl ON c.code = cl.countrycode
