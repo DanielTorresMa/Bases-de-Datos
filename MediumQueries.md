@@ -25,7 +25,13 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{CountryCode}} (\sigma_{\text{IsOfficial} = 'T'} (\text{CountryLanguage}))\ \ \text{GROUP BY CountryCode HAVING COUNT(*) > 1}$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT c.name AS country_name, COUNT(cl.isofficial) AS Official_languages
+  FROM country AS c
+  JOIN countrylanguage AS cl ON c.code = cl.countrycode
+  WHERE cl.isofficial = 't'
+  GROUP BY c.code
+  HAVING COUNT(cl.isofficial) > 1
+  ORDER BY name;
   ```
 
 ### 3. Encuentra los países que tienen el mismo continente que Japón.
@@ -34,7 +40,11 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Name}} (\text{Country} \bowtie_{\text{Continent} = 'Asia'} \text{Country})$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT name as Country_Name , continent
+  FROM country
+  WHERE continent=(SELECT continent
+	               FROM country
+                 WHERE name="JAPAN");
   ```
 
 ### 4. Encuentra las ciudades que tienen población mayor a 5 millones y están en América del Sur.
@@ -43,7 +53,11 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{City.Name}} (\sigma_{\text{City.Population} > 5000000 \land \text{Country.Continent} = 'South America'}(\text{City} \bowtie \text{Country}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT ci.name, ci.population
+  FROM city as ci
+  JOIN country as co ON co.code=ci.countrycode
+  WHERE ci.population>"5000000"
+  AND co.continent="South America";
   ```
 
 ### 5. Encuentra los países que no tienen ningún idioma oficial.
@@ -52,7 +66,10 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Country.Code}}(\text{Country}) - \pi_{\text{CountryCode}}(\sigma_{\text{IsOfficial} = 'T'}(\text{CountryLanguage}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT c.name AS Country
+  FROM country AS c
+  LEFT JOIN countrylanguage AS cl ON c.code = cl.countrycode AND cl.IsOfficial = 'T'
+  WHERE cl.countrycode IS NULL;
   ```
 
 ### 6. Encuentra los idiomas que son oficiales en al menos dos países.
@@ -61,7 +78,13 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Language}} (\sigma_{\text{IsOfficial} = 'T'} (\text{CountryLanguage}) \ \text{GROUP BY Language HAVING COUNT(DISTINCT CountryCode) >= 2})$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT cl.language AS language_name, COUNT(cl.isofficial) AS Countries_as_official
+  FROM country AS c
+  JOIN countrylanguage AS cl ON c.code = cl.countrycode
+  WHERE cl.isofficial = 't'
+  GROUP BY cl.language
+  HAVING COUNT(cl.isofficial) > 1
+  ORDER BY cl.language;
   ```
 
 ### 7. Lista los países y su capital.
@@ -70,7 +93,9 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Country.Name}, \text{City.Name}} (\text{Country} \bowtie_{\text{Country.Capital} = \text{City.ID}} \text{City})$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT co.name AS country, ci.name AS capital
+  FROM country as co
+  JOIN city AS ci ON co.capital=ci.id;
   ```
 
 ### 8. Encuentra los países que tienen una población mayor que Alemania.
@@ -79,7 +104,11 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Name}}(\sigma_{\text{Population} > ( \text{SELECT Population FROM Country WHERE Name = 'Germany'} ) }(\text{Country}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT name, population
+  FROM country
+  WHERE population>(SELECT population
+				          FROM country
+                  WHERE name="Germany");
   ```
 
 ### 9. Encuentra los idiomas oficiales de Europa.
@@ -88,7 +117,13 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Language}} (\sigma_{\text{Country.Continent} = 'Europe'} (\text{Country} \bowtie \text{CountryLanguage}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT cl.language, COUNT(c.name) AS Official_in_europe
+  FROM country AS c
+  JOIN countrylanguage AS cl ON c.code = cl.countrycode
+  WHERE cl.isofficial = 't'
+  AND c.continent="EUROPE"
+  GROUP BY cl.language
+  ORDER BY cl.language;
   ```
 
 ### 10. Encuentra los países sin ciudades registradas en la tabla `City`.
@@ -97,7 +132,10 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Country.Code}}(\text{Country}) - \pi_{\text{CountryCode}}(\text{City})$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT co.name AS Country
+  FROM country AS co
+  LEFT JOIN city AS ci ON co.code = ci.countrycode
+  WHERE ci.countrycode IS NULL;
   ```
 
 ### 11. Muestra la población total de cada continente.
@@ -106,7 +144,10 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Continent}, \text{SUM(Population)}} (\text{Country} \ \text{GROUP BY Continent})$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT continent, SUM(population) as Total_population
+  FROM country
+  GROUP BY continent
+  ORDER BY Total_population DESC;
   ```
 
 ### 12. Encuentra los países en los que la esperanza de vida es menor al promedio global.
@@ -114,7 +155,10 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
 - **Álgebra Relacional:** $$\pi_{\text{Name}}(\sigma_{\text{LifeExpectancy} < \text{AVG(LifeExpectancy)}}(\text{Country}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT name AS Country,lifeexpectancy as Life_Expectancy
+  FROM country
+  WHERE lifeexpectancy < (SELECT AVG(lifeexpectancy) FROM country)
+  ORDER BY lifeexpectancy ASC;
   ```
 
 ### 13. Encuentra los países en Asia sin idioma oficial registrado.
@@ -123,7 +167,10 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Country.Code}}(\sigma_{\text{Continent} = 'Asia'} (\text{Country})) - \pi_{\text{CountryCode}}(\sigma_{\text{IsOfficial} = 'T'}(\text{CountryLanguage}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT co.name AS Country
+  FROM country AS co
+  LEFT JOIN countrylanguage AS cl ON co.code = cl.countrycode AND cl.IsOfficial = 'T'
+  WHERE cl.countrycode IS NULL AND continent="Asia";
   ```
 
 ### 14. Lista los idiomas que son oficiales en países con esperanza de vida mayor a 80.
@@ -132,7 +179,10 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   $$\pi_{\text{Language}} (\sigma_{\text{Country.LifeExpectancy} > 80} (\text{Country} \bowtie \text{CountryLanguage}))$$
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT language
+  FROM countrylanguage as cl
+  LEFT JOIN country AS co on co.code=cl.countrycode
+  WHERE IsOfficial="t" AND co.lifeexpectancy>"80";
   ```
 
 ### 15. Encuentra los países con más de 10 ciudades en la tabla `City`.
@@ -143,16 +193,130 @@ $$ \pi_{\text{CountryCode}} (\text{City} \ \text{GROUP BY CountryCode HAVING COU
 
 - **Consulta en SQL:**
   ```sql
-  
+  SELECT co.name AS Country, COUNT(countrycode) as Cities
+  FROM country as co
+  JOIN city AS ci ON co.code = ci.countrycode
+  GROUP BY ci.countrycode
+  HAVING COUNT(countrycode)>"10"; 
   ```
 
 ## Ejercicio
 
 Propongan 10 preguntas, con su respectiva representación en el álgebra relacional, que puedan ser resueltas con consultas a la base de datos **World**. Deben proponer la pregunta y responderla utilizando comandos de MySQL.
 
-**Plantilla:** Utilicen la siguiente plantilla para la creación de las preguntas:
+  **#1. Encuentra los países que tienen la misma región que Rúsia.**
 
-  **#. Enunciado Pregunta**
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **2. Encuentra las ciudades que están en el caribe y dependen de reino unido ordenado ascendentemente por nombre.**
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **3. Encuentra las ciudades que están en el caribe y dependen de reino unido ordenado ascendentemente por nombre.**
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **#4. Encuentra los países en America del sur sin idiomas no oficiales registrado.**
+
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **5. Encuentra los países que tienen entre 5 y 10 ciudades en la tabla City.**
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **#6. Lista los idiomas que son no son oficiales en países con más de 100 millones de habitantes.**
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **#7. Encuentra los países que tienen una area mayor que Colombia.**
+
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **#8. Lista los países con expectativa de vida debajo del promerio mundial**
+
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **#9 Muestra el área total de cada continente.**
+
+
+  **Álgebra relacional**:  
+
+  $$
+  Álgebra Relacional
+  $$
+
+  **SQL equivalente**:  
+  ```sql
+  -- Respuesta a la consulta usando comandos de MySQL
+  ```
+  **#10 Encuentra los países que tienen la misma forma de gobierno que rusia.**
 
   **Álgebra relacional**:  
 
