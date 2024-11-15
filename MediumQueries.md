@@ -9,13 +9,14 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
 - **Álgebra Relacional:** 
   $$\pi_{\text{CountryCode}}(\sigma_{\text{IsOfficial} = 'T'} (\text{CountryLanguage}))$$
 - **Consulta en SQL:**
-  ```SELECT c.name AS country_name, MAX(cl.language) AS Official_languages
-FROM country AS c
-JOIN countrylanguage AS cl ON c.code = cl.countrycode
-WHERE cl.isofficial = "t"
-GROUP BY c.code
-HAVING COUNT(cl.isofficial) = 1
-ORDER BY name;
+  ```
+  SELECT c.name AS country_name, MAX(cl.language) AS Official_languages
+  FROM country AS c
+  JOIN countrylanguage AS cl ON c.code = cl.countrycode
+  WHERE cl.isofficial = "t"
+  GROUP BY c.code
+  HAVING COUNT(cl.isofficial) = 1
+  ORDER BY name;
   ```
 
 ### 2. Lista los países que tienen más de un idioma oficial.
