@@ -209,12 +209,16 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
   **Álgebra relacional**:  
 
   $$
-  Álgebra Relacional
+  π_Country_Name,Region(σ_Region = (π_Region(σ_name = 'Russian Federation'(country)))(country))
   $$
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+SELECT name as Country_Name , Region
+	FROM country
+	WHERE Region=(SELECT region
+	FROM country
+  	WHERE name="Russian Federation");
   ```
   **2. Encuentra las ciudades que están en el caribe y dependen de reino unido ordenado ascendentemente por nombre.**
 
@@ -226,7 +230,12 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+SELECT ci.name as City, ci.population
+	FROM city as ci
+	JOIN country as co ON co.code=ci.countrycode
+	WHERE co.region="Caribbean"
+	AND co.HeadOfState="Elisabeth II"
+	ORDER BY city;
   ```
   **3. Encuentra las ciudades que están en el caribe y dependen de reino unido ordenado ascendentemente por nombre.**
 
@@ -238,7 +247,13 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+SELECT cl.language AS language_name, COUNT(cl.isofficial) AS Countries_as_nonofficial
+	FROM country AS c
+	JOIN countrylanguage AS cl ON c.code = cl.countrycode
+	WHERE cl.isofficial = 'f'
+	GROUP BY cl.language
+	HAVING COUNT(cl.isofficial) > 1
+	ORDER BY cl.language;
   ```
   **#4. Encuentra los países en America del sur sin idiomas no oficiales registrado.**
 
@@ -251,7 +266,10 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+SELECT co.name AS Country
+	FROM country AS co
+	LEFT JOIN countrylanguage AS cl ON co.code = cl.countrycode AND cl.IsOfficial = 'f'
+	WHERE cl.countrycode IS NULL AND continent="South America";
   ```
   **5. Encuentra los países que tienen entre 5 y 10 ciudades en la tabla City.**
 
@@ -263,7 +281,11 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+SELECT co.name AS Country, COUNT(countrycode) as Cities
+	FROM country as co
+	JOIN city AS ci ON co.code = ci.countrycode
+	GROUP BY ci.countrycode
+	HAVING COUNT(countrycode) BETWEEN "5" AND "10";
   ```
   **#6. Lista los idiomas que son no son oficiales en países con más de 100 millones de habitantes.**
 
@@ -275,7 +297,10 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+SELECT language
+	FROM countrylanguage as cl
+	LEFT JOIN country AS co on co.code=cl.countrycode
+	WHERE IsOfficial="f" AND co.population>"100000000";
   ```
   **#7. Encuentra los países que tienen una area mayor que Colombia.**
 
@@ -288,7 +313,11 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+  SELECT name, surfacearea
+	FROM country
+	WHERE surfacearea>(SELECT surfacearea
+				FROM country
+				WHERE name="Colombia");
   ```
   **#8. Lista los países con expectativa de vida debajo del promerio mundial**
 
@@ -301,7 +330,10 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+  SELECT name AS Country,lifeexpectancy as Life_Expectancy
+	FROM country
+	WHERE lifeexpectancy < (SELECT AVG(lifeexpectancy) FROM country)
+	ORDER BY lifeexpectancy ASC;
   ```
   **#9 Muestra el área total de cada continente.**
 
@@ -314,7 +346,10 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+  SELECT continent, SUM(surfacearea) as Total_population
+	FROM country
+	GROUP BY continent
+	ORDER BY Total_population DESC;
   ```
   **#10 Encuentra los países que tienen la misma forma de gobierno que rusia.**
 
@@ -326,7 +361,11 @@ Propongan 10 preguntas, con su respectiva representación en el álgebra relacio
 
   **SQL equivalente**:  
   ```sql
-  -- Respuesta a la consulta usando comandos de MySQL
+  SELECT name as Country_Name , governmentform
+	FROM country
+	WHERE governmentform=(SELECT governmentform
+				FROM country
+                	 	WHERE name="Russian Federation");
   ```
 
 ## Entregables
