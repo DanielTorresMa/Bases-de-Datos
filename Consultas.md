@@ -18,6 +18,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   HAVING COUNT(cl.isofficial) = 1
   ORDER BY name;
   ```
+![](./imagenes/01.png?raw=true)
 
 ### 2. Lista los países que tienen más de un idioma oficial.
 **Objetivo:** Identificar los países con varios idiomas oficiales.
@@ -33,6 +34,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   HAVING COUNT(cl.isofficial) > 1
   ORDER BY name;
   ```
+![](./imagenes/02.png?raw=true)
 
 ### 3. Encuentra los países que tienen el mismo continente que Japón.
 **Objetivo:** Listar los países que comparten el mismo continente que Japón.
@@ -46,6 +48,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
 	               FROM country
                  WHERE name="JAPAN");
   ```
+![](./imagenes/03.png?raw=true)
 
 ### 4. Encuentra las ciudades que tienen población mayor a 5 millones y están en América del Sur.
 **Objetivo:** Filtrar ciudades por población y continente.
@@ -59,6 +62,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   WHERE ci.population>"5000000"
   AND co.continent="South America";
   ```
+![](./imagenes/04.png?raw=true)
 
 ### 5. Encuentra los países que no tienen ningún idioma oficial.
 **Objetivo:** Listar los países sin idioma oficial.
@@ -71,6 +75,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   LEFT JOIN countrylanguage AS cl ON c.code = cl.countrycode AND cl.IsOfficial = 'T'
   WHERE cl.countrycode IS NULL;
   ```
+![](./imagenes/05.png?raw=true)
 
 ### 6. Encuentra los idiomas que son oficiales en al menos dos países.
 **Objetivo:** Identificar idiomas que sean oficiales en varios países.
@@ -86,6 +91,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   HAVING COUNT(cl.isofficial) > 1
   ORDER BY cl.language;
   ```
+![](./imagenes/06.png?raw=true)
 
 ### 7. Lista los países y su capital.
 **Objetivo:** Obtener la relación entre los países y sus capitales.
@@ -97,6 +103,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   FROM country as co
   JOIN city AS ci ON co.capital=ci.id;
   ```
+![](./imagenes/07.png?raw=true)
 
 ### 8. Encuentra los países que tienen una población mayor que Alemania.
 **Objetivo:** Comparar población con un país específico.
@@ -110,6 +117,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
 				          FROM country
                   WHERE name="Germany");
   ```
+![](./imagenes/08.png?raw=true)
 
 ### 9. Encuentra los idiomas oficiales de Europa.
 **Objetivo:** Listar los idiomas oficiales de países europeos.
@@ -125,6 +133,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   GROUP BY cl.language
   ORDER BY cl.language;
   ```
+![](./imagenes/09.png?raw=true)
 
 ### 10. Encuentra los países sin ciudades registradas en la tabla `City`.
 **Objetivo:** Detectar países sin representación en la tabla de ciudades.
@@ -137,6 +146,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   LEFT JOIN city AS ci ON co.code = ci.countrycode
   WHERE ci.countrycode IS NULL;
   ```
+![](./imagenes/10.png?raw=true)
 
 ### 11. Muestra la población total de cada continente.
 **Objetivo:** Calcular la población por continente.
@@ -149,6 +159,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   GROUP BY continent
   ORDER BY Total_population DESC;
   ```
+![](./imagenes/11.png?raw=true)
 
 ### 12. Encuentra los países en los que la esperanza de vida es menor al promedio global.
 **Objetivo:** Filtrar países con esperanza de vida baja en comparación con el promedio.
@@ -160,6 +171,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   WHERE lifeexpectancy < (SELECT AVG(lifeexpectancy) FROM country)
   ORDER BY lifeexpectancy ASC;
   ```
+![](./imagenes/12.png?raw=true)
 
 ### 13. Encuentra los países en Asia sin idioma oficial registrado.
 **Objetivo:** Listar países asiáticos sin idiomas oficiales.
@@ -172,6 +184,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   LEFT JOIN countrylanguage AS cl ON co.code = cl.countrycode AND cl.IsOfficial = 'T'
   WHERE cl.countrycode IS NULL AND continent="Asia";
   ```
+![](./imagenes/13.png?raw=true)
 
 ### 14. Lista los idiomas que son oficiales en países con esperanza de vida mayor a 80.
 **Objetivo:** Identificar idiomas en países con alta esperanza de vida.
@@ -184,6 +197,7 @@ Aquí tienes un conjunto de preguntas de nivel medio que utilizan operaciones re
   LEFT JOIN country AS co on co.code=cl.countrycode
   WHERE IsOfficial="t" AND co.lifeexpectancy>"80";
   ```
+![](./imagenes/14.png?raw=true)
 
 ### 15. Encuentra los países con más de 10 ciudades en la tabla `City`.
 **Objetivo:** Identificar países con una gran cantidad de ciudades registradas.
@@ -199,6 +213,7 @@ $$ \pi_{\text{CountryCode}} (\text{City} \ \text{GROUP BY CountryCode HAVING COU
   GROUP BY ci.countrycode
   HAVING COUNT(countrycode)>"10"; 
   ```
+![](./imagenes/15.png?raw=true)
 
 ## Ejercicio
 
@@ -218,6 +233,8 @@ SELECT name as Country_Name , Region
 	FROM country
   	WHERE name="Russian Federation");
   ```
+![](./imagenes/p01.png?raw=true)
+
   **2. Encuentra las ciudades que están en el caribe y dependen de reino unido ordenado ascendentemente por nombre.**
 
   **Álgebra relacional**:  
@@ -233,6 +250,8 @@ SELECT ci.name as City, ci.population
 	AND co.HeadOfState="Elisabeth II"
 	ORDER BY city;
   ```
+![](./imagenes/p02.png?raw=true)
+
   **3. Encuentra las ciudades que están en el caribe y dependen de reino unido ordenado ascendentemente por nombre.**
 
   **Álgebra relacional**:  
@@ -249,6 +268,8 @@ SELECT cl.language AS language_name, COUNT(cl.isofficial) AS Countries_as_nonoff
 	HAVING COUNT(cl.isofficial) > 1
 	ORDER BY cl.language;
   ```
+![](./imagenes/p03.png?raw=true)
+
   **#4. Encuentra los países en America del sur sin idiomas no oficiales registrado.**
 
 
@@ -263,6 +284,8 @@ SELECT co.name AS Country
 	LEFT JOIN countrylanguage AS cl ON co.code = cl.countrycode AND cl.IsOfficial = 'f'
 	WHERE cl.countrycode IS NULL AND continent="South America";
   ```
+![](./imagenes/p04.png?raw=true)
+
   **5. Encuentra los países que tienen entre 5 y 10 ciudades en la tabla City.**
 
   **Álgebra relacional**:  
@@ -277,6 +300,7 @@ SELECT co.name AS Country, COUNT(countrycode) as Cities
 	GROUP BY ci.countrycode
 	HAVING COUNT(countrycode) BETWEEN "5" AND "10";
   ```
+![](./imagenes/p05.png?raw=true)
   **#6. Lista los idiomas que son no son oficiales en países con más de 100 millones de habitantes.**
 
   **Álgebra relacional**:  
@@ -290,6 +314,8 @@ SELECT language
 	LEFT JOIN country AS co on co.code=cl.countrycode
 	WHERE IsOfficial="f" AND co.population>"100000000";
   ```
+![](./imagenes/p06.png?raw=true)
+
   **#7. Encuentra los países que tienen una area mayor que Colombia.**
 
 
@@ -305,6 +331,8 @@ SELECT language
 				FROM country
 				WHERE name="Colombia");
   ```
+![](./imagenes/p07.png?raw=true)
+
   **#8. Lista los países con expectativa de vida debajo del promerio mundial**
 
 
@@ -319,8 +347,9 @@ SELECT language
 	WHERE lifeexpectancy < (SELECT AVG(lifeexpectancy) FROM country)
 	ORDER BY lifeexpectancy ASC;
   ```
-  **#9 Muestra el área total de cada continente.**
+![](./imagenes/p08.png?raw=true)
 
+  **#9 Muestra el área total de cada continente.**
 
   **Álgebra relacional**:  
 
@@ -333,6 +362,8 @@ SELECT language
 	GROUP BY continent
 	ORDER BY Total_population DESC;
   ```
+![](./imagenes/p09.png?raw=true)
+
   **#10 Encuentra los países que tienen la misma forma de gobierno que rusia.**
 
   **Álgebra relacional**:  
@@ -347,15 +378,4 @@ SELECT language
 				FROM country
                 	 	WHERE name="Russian Federation");
   ```
-
-## Entregables
-
-Deben entregar un archivo tipo markdown con las respuestas de las preguntas escritas en MySQL, puede llamarse `consultas.md`. En este también deben colocar los pantallazos de los resultados, para ello en la misma carpeta donde esta el archivo creen una carpeta de `imagenes` y guardan alli todos los pantallazos. Para llamarlas dentro del archivo markdown usen el comando:
-
-```html
-<div align="center">
-  <img src="./bases-de-datos/01.png?raw=true" width=90%>
-</div>
-```
-![](./01.png?raw=true)
-
+![](./imagenes/p10.png?raw=true)
