@@ -215,9 +215,7 @@ $$ \pi_{\text{CountryCode}} (\text{City} \ \text{GROUP BY CountryCode HAVING COU
   ```
 ![](./imagenes/15.png?raw=true)
 
-## Ejercicio
-
-Propongan 10 preguntas, con su respectiva representación en el álgebra relacional, que puedan ser resueltas con consultas a la base de datos **World**. Deben proponer la pregunta y responderla utilizando comandos de MySQL.
+## Ejercicio - Consultas Propuestas
 
   **#1. Encuentra los países que tienen la misma región que Rúsia.**
 
