@@ -354,6 +354,6 @@ Deben entregar un archivo tipo markdown con las respuestas de las preguntas escr
 
 ```html
 <div align="center">
-  <img src="./01.png" width=90%>
+  <img src="./bases-de-datos/01.png" width=90%>
 </div>
 ```
