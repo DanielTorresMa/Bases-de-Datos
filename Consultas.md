@@ -357,34 +357,3 @@ Deben entregar un archivo tipo markdown con las respuestas de las preguntas escr
   <img src="./imagenes/nombre_imagen.png" width=90%>
 </div>
 ```
-## Conclusión
-
-La realización de este taller permite a los estudiantes afianzar sus habilidades en SQL, enfocándose en operaciones relacionales fundamentales en el contexto de bases de datos. A través de las consultas realizadas, se logra una comprensión sólida sobre cómo se estructuran y ejecutan consultas complejas que implican múltiples tablas y condiciones. Este conocimiento es esencial en la gestión de datos en entornos reales, donde la habilidad de interpretar y manipular datos desde diferentes fuentes es crucial para el análisis y la toma de decisiones.
-
-Al explorar distintas formas de unión y filtrado en consultas, los estudiantes desarrollan una visión completa sobre el potencial de SQL en el manejo de datos, preparándolos para enfrentar situaciones más avanzadas en el ámbito profesional. Finalmente, la combinación de SQL y álgebra relacional ofrece una perspectiva integral, permitiendo comprender tanto la implementación técnica como los principios teóricos subyacentes en cada consulta.
-
-## References
-
-### Documentación y BD
-
-- [15.2.13.2 JOIN Clause - MySQL Documentation](https://dev.mysql.com/doc/refman/8.4/en/join.html)
-- "world" Sample Database. (n.d.). *MySQL Sample Databases*. Retrieved from [https://dev.mysql.com/doc/index-other.html](https://dev.mysql.com/doc/index-other.html)
-
-
-### Guías y Tutoriales
-
-- [MySQL Joins - W3School](https://www.w3schools.com/mysql/mysql_join.asp)
-- [SQL - HAVING vs. WHERE](https://stackoverflow.com/questions/9253244/sql-having-vs-where)
-- [MySQL JOINS - JapaPoint](https://www.javatpoint.com/mysql-join)
-
-### Videos
-- [join in mysql - Youtube](https://www.youtube.com/results?search_query=join+in+mysql)
-- [MySQL: JOINS are easy (INNER, LEFT, RIGHT) ](https://www.youtube.com/watch?v=G3lJAxg1cy8)
-
-
-
-### Libros
-
-- Codd, E. F. (1970). *A Relational Model of Data for Large Shared Data Banks*. Communications of the ACM, 13(6), 377-387.
-- Date, C. J. (2003). *An Introduction to Database Systems* (8th ed.). Pearson Education.
-- Elmasri, R., & Navathe, S. B. (2011). *Fundamentals of Database Systems* (6th ed.). Pearson Education.
