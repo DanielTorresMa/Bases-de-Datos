@@ -73,7 +73,9 @@ WHERE e.first_name LIKE 'M%';
 ### 2. Contar el número total de empleados en el departamento 'Sales' que empezaron después del '1989-01-01'
 
 ```sql
-
+SELECT COUNT(*) AS total_empleados FROM employees e
+JOIN dept_emp de ON e.emp_no = de.emp_no
+WHERE from_date > '1989-01-01';
 ```
 
 ### 3. Calcular el salario promedio de los empleados que ganan más de 39.000. Imprimir solo 2 decimales redondeadas(comando ROUND())
@@ -86,7 +88,9 @@ WHERE s.salary > 39000;
 
 ### 4. Mostrar el número de empleados por departamento
 ```sql
-
+SELECT dept_name,count(de.emp_no) FROM departments d
+JOIN dept_emp de ON d.dept_no=de.dept_no
+GROUP BY de.dept_no;
 ```
 
 ### 5. Filtrar empleados con salarios entre 39.000 y 40.000 y organizarlos en orden ascendente por salario
